@@ -3,13 +3,13 @@
 @{
     ViewData["Title"] = "Chromat - nie tylko fotografia";
 }
-@if(ViewData["Message"] != null) {
-<div class="goodMessage fadeable">
-    <p>@ViewData["Message"]</p>
+@if(TempData["Message"] != null) {
+<div class="msg">
+    <p>@TempData["Message"]</p>
 </div>
-} else if(ViewData["ErrorMessage"] != null) {
-<div class="errorMessage fadeable">
-    <p>@ViewData["ErrorMessage"]</p>
+} else if(TempData["ErrorMessage"] != null) {
+<div class="msg error">
+    <p>@TempData["ErrorMessage"]</p>
 </div>
 }
 <!-- Start Home Section -->
@@ -161,39 +161,89 @@
                    (Według cen za zamówienie przez internet):</p>
 		<div id="calc">
             @using (Html.BeginForm("Order", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) {
-                <select class="btn-outline-light calculator-res" v-model="resolution" v-on:change="Calculate" name="Rozmiar">
-                    <option selected="selected" value="9x13">9x13</option>
-                    <option value="10x15">10x15</option>
+                <select class="custom-select btn-outline-light calculator-res selecty" v-model="resolution" v-on:change="calculateAll" name="Rozmiar" id="Rozmiar">
+                    <option value="9x13">9x13</option>
+                    <option selected="true" value="10x15">10x15</option>
                     <option value="13x18">13x18</option>
                     <option value="15x21">15x21</option>
                     <option value="20x30">20x30</option>
                 </select>
-                <select class="btn-outline-light calculator-res" name="Powierzchnia">
+                <select class="custom-select btn-outline-light calculator-res selecty" name="Powierzchnia">
                     <option value="mat">Mat</option>    
                     <option value="błysk">Błysk</option>    
                 </select>
-                <select class="btn-outline-light calculator-res" name="Wypelnienie">
+                <select class="custom-select btn-outline-light calculator-res selecty" name="Wypelnienie">
                     <option value="ndop">Przytnij</option>    
                     <option value="dop">Dopasuj</option>    
                 </select>
-                <select class="btn-outline-light calculator-res" name="Sepia">
+                <select class="custom-select btn-outline-light calculator-res selecty" name="Sepia">
                     <option selected="selected" value="">Kolor</option>   
                     <option value="Czarno-białe">Czarno-białe</option>    
                     <option value="sepia">Sepia</option>    
-                </select><br/>
-                <input type="checkbox" class="btn-outline-light" style="margin-bottom: 10px;" name="Ramka"><span> Biała ramka</span>
+                </select><br/><p></p>
+	            <span>Domyślna ilość odbitek: </span> <input type="number" class="custom-control btn-outline-light calculator-res selecty" v-model="quantity" name="Ilosc" id="Ilosc" v-on:change="changeAmount" style="width: 70px;"/><br/>
+                <input type="checkbox" class="btn-outline-light" style="margin-bottom: 10px; margin-top: 10px" name="Ramka"><span> Biała ramka</span>
                 <br/>    
-                <input type="file" class="btn btn-primary btn-md" style="background-color: rgba(0,0,0,0)" v-on:change="Calculate" id="Files" name="Pliki" multiple="true">
-                <span class="message">Do zapłaty: {{message}}zł</span>
+	            <input type="file" class="custom-select btn btn-primary btn-md" style="background-color: rgba(0,0,0,0); width: 60%" v-on:change="uploadFiles" id="Files" name="Pliki" multiple="true">
+	            <input type="hidden" value="1" id="oldAmount"/>
                 <input type="hidden" v-model="message" v-bind:value="message" name="Cena" />
-                <div class="modal" id="PD">
+                <input type="hidden" v-model="amount9" v-bind:value="amount9" name="Amount9" />
+                <input type="hidden" v-model="amount13" v-bind:value="amount13" name="Amount13" />
+                <input type="hidden" v-model="amount15" v-bind:value="amount15" name="Amount15" />
+                <input type="hidden" v-model="amount20" v-bind:value="amount20" name="Amount20" />
+                <div class="row modal" id="PD">
                     <div id="details" class="modalContent" v-if="amount != 0">
                         <span class="close" v-on:click="document.getElementById('PD').style.display = 'none';">&times;</span>
-                        <div class="product detale" id="gallery">
+                        <div class="product detale col-xs-12 col-lg-8" id="gallery">
+                                <div class="mySlides" v-for="(file, index) in files" v-bind:id="'img-'+(index+1)+'-preview'">
+                                    <div class='attrs' v-bind:id="'img-'+(index+1)+'-attr'" style='display: none; text-align: center'>
+                                        <input type="hidden" v-bind:id="(index+1)+'-oldres'" value="" style="display: none"/>
+                                        <input type="hidden" v-bind:id="(index+1)+'-oldAmount'" value="1" style="display: none"/>
+                                        
+                                        <span class='calculator-res przypis'>Rozmiar: </span>
+                                        <select v-bind:name="(index+1)+'-Rozmiar'" v-bind:id="(index+1)+'-Rozmiar'" class='custom-select calculator-res selecty att rozmiar' v-on:change="increment">
+                                            <option selected='true' value='default'>Domyślne</option>
+                                            <option value="9x13">9x13</option>
+                                            <option value="10x15">10x15</option>
+                                            <option value="13x18">13x18</option>
+                                            <option value="15x21">15x21</option>
+                                            <option value="20x30">20x30</option>
+                                        </select>
+                                        <span class='calculator-res przypis'>Wypełnienie: </span>
+                                        <select v-bind:name="(index+1)+'-Wypelnienie'" class='custom-select calculator-res selecty att wypelnienie'>
+                                             <option selected='true' value='default'>Domyślne</option>
+                                             <option value="ndop">Przytnij</option>    
+                                             <option value="dop">Dopasuj</option>   
+                                        </select>
+                                        <span class='calculator-res przypis'>Powierzchnia: </span>
+                                        <select v-bind:name="(index+1)+'-Powierzchnia'" class='custom-select calculator-res selecty att powierzchnia'>
+                                            <option selected='true' value='default'>Domyślne</option>
+                                            <option value="mat">Mat</option>    
+                                            <option value="błysk">Błysk</option>
+                                        </select>
+                                        <span class='calculator-res przypis'>Kolor: </span>
+                                        <select v-bind:name="(index+1)+'-Sepia'" class='custom-select calculator-res selecty att sepia'>
+                                            <option selected='true' value='default'>Domyślne</option>
+                                            <option value="">Kolor</option>   	
+                                            <option value="Czarno-białe">Czarno-białe</option>    
+                                            <option value="sepia">Sepia</option>
+                                        </select>
+                                        <span class='calculator-res przypis'>Biała ramka: </span>
+                                        <select v-bind:name="(index+1)+'-Ramka'" class='custom-select calculator-res selecty att ramka'>
+                                             <option selected='true' value='default'>Domyślne</option>
+                                             <option value="Ramka_">Ramka</option>    
+                                             <option value="">Bez ramki</option>   
+                                        </select>
+                                        <span class="calculator-res przypis">Ilość odbitek: </span>
+                                        <input type="number" v-bind:id="(index+1)+'-Ilosc'" v-bind:name="(index+1)+'-Ilosc'"
+                                               class="custom-select calculator-res selecty att ilosc" v-on:change="changeAmount"/>
+                                    </div>
+                                </div>
                             <a class="prev" v-on:click="prev">&#10094</a>
                             <a class="next" v-on:click="next">&#10095</a>
+                            <span class="col-xs-12 message" style="clear: both; padding: 10px; text-align: center">Do zapłaty: {{message}}zł</span>
                         </div>
-                        <div id="personalData" class="detale">
+                        <div id="personalData" class="detale col-xs-12 col-lg-4">
                             <h3 id="headerPD">PODAJ DANE:</h3>
                             <input class="btn btn-md pd" type="text" name="Imie" placeholder="Imię" required="true"/><br/>
                             <input class="btn btn-md pd" type="text" name="Nazwisko" placeholder="Nazwisko" required="true"/><br/>
@@ -201,7 +251,6 @@
                             <input class="btn btn-md pd" type="tel" name="Nrtel" placeholder="Nr telefonu" required="true"/><br/>
                             <button type="submit" class="btn" onclick="return confirm('Jesteś pewien?')" style="border: 1px solid #aaa" name="submit">Zamów</button>
                         </div>
-                        <span class="message">Do zapłaty: {{totalAmount}}zł</span>
                     </div>
                 </div>
                 

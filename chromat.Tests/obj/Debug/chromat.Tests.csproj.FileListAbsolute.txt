@@ -29,6 +29,10 @@
 /home/tfn/Projects/chromat/chromat.Tests/obj/Debug/chromat.Tests.csproj.CopyComplete
 /home/tfn/Projects/chromat/chromat.Tests/obj/Debug/chromat.Tests.dll
 /home/tfn/Projects/chromat/chromat.Tests/obj/Debug/chromat.Tests.pdb
-/home/tfn/Projects/chromat/chromat.Tests/bin/Debug/EntityFramework.dll
 /home/tfn/Projects/chromat/chromat.Tests/bin/Debug/nunit.framework.pdb
-/home/tfn/Projects/chromat/chromat.Tests/bin/Debug/EntityFramework.xml
+/home/tfn/Projects/chromat/chromat.Tests/bin/Debug/runtimes/linux-x86/native/libe_sqlite3.so
+/home/tfn/Projects/chromat/chromat.Tests/bin/Debug/runtimes/linux-x64/native/libe_sqlite3.so
+/home/tfn/Projects/chromat/chromat.Tests/bin/Debug/runtimes/linux-arm/native/libe_sqlite3.so
+/home/tfn/Projects/chromat/chromat.Tests/bin/Debug/runtimes/linux-armel/native/libe_sqlite3.so
+/home/tfn/Projects/chromat/chromat.Tests/bin/Debug/runtimes/linux-arm64/native/libe_sqlite3.so
+/home/tfn/Projects/chromat/chromat.Tests/obj/Debug/chromat.Tests.csproj.CoreCompileInputs.cache

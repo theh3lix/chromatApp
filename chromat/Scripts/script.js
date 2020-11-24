@@ -2,8 +2,9 @@ var app = new Vue({
     el: '#calc',
     data: {
         message: '0.00',
-        resolution: '',
+        resolution: '10x15',
         files: [],
+        quantity: 1,
         amount: 0,
         amount9: 0,
         amount13: 0,
@@ -11,33 +12,7 @@ var app = new Vue({
         amount20: 0,
         totalAmount: '0.00',
         cnt: 0,
-        nowShowed: 1,
-        attributesTemplate: `<div class='attrs' id='img-<n>-attr' style='display: none'>
-            <select name='<n>-Rozmiar' class='btn-outline-light calculator-res att rozmiar'>
-                <option selected='true' value='default'>Domyślne</option>
-                <option value="10x15">10x15</option>
-                <option value="13x18">13x18</option>
-                <option value="15x21">15x21</option>
-                <option value="20x30">20x30</option>
-            </select><br/>
-            <select name='<n>-Wypelnienie' class='btn-outline-light calculator-res att wypelnienie'>
-                <option selected='true' value='default'>Domyślne</option>
-                <option value="ndop">Przytnij</option>    
-                <option value="dop">Dopasuj</option>   
-            </select><br/>
-            <select name='<n>-Powierzchnia' class='btn-outline-light calculator-res att powierzchnia'>
-                <option selected='true' value='default'>Domyślne</option>
-                <option value="mat">Mat</option>    
-                <option value="błysk">Błysk</option>
-            </select><br/>
-            <select name='<n>-Sepia' class='btn-outline-light calculator-res att sepia'>
-                <option selected='true' value='default'>Domyślne</option>
-                <option value="">Kolor</option>   
-                <option value="Czarno-białe">Czarno-białe</option>    
-                <option value="sepia">Sepia</option>
-            </select><br/>
-            <input type="checkbox" class="btn-outline-light ramka" style="margin-bottom: 10px;" name="<n>-Ramka"><span> Biała ramka</span>
-        </div>`
+        nowShowed: 1
     },
     computed: {
         sumUp9: function() {
@@ -108,33 +83,107 @@ var app = new Vue({
         },
         sumUp20: function() {
             let ret = 0.00;
-            if(this.amount<10) {
-                ret = this.amount*3.70;
-            } else if(this.amount<100) {
-                ret = this.amount*2.96;
-            } else if(this.amount<200) {
-                ret = this.amount*2.52;
-            } else if(this.amount<300) {
-                ret = this.amount*2.37;
-            } else if(this.amount<500) {
-                ret = this.amount*2.22;
-            } else if(this.amount<1000) {
-                ret = this.amount*2.07;
-            } else if(this.amount<2000) {
-                ret = this.amount*1.93;
+            if(this.amount20<10) {
+                ret = this.amount20*3.70;
+            } else if(this.amount20<100) {
+                ret = this.amount20*2.96;
+            } else if(this.amount20<200) {
+                ret = this.amount20*2.52;
+            } else if(this.amount20<300) {
+                ret = this.amount20*2.37;
+            } else if(this.amount20<500) {
+                ret = this.amount20*2.22;
+            } else if(this.amount20<1000) {
+                ret = this.amount20*2.07;
+            } else if(this.amount20<2000) {
+                ret = this.amount20*1.93;
             } else {
-                ret = this.amount*1.63;
+                ret = this.amount20*1.63;
             }
             ret = ret.toFixed(2);
             return ret;
         }
     },
     methods: {
-        incrementDecrement: function(target) {
-            console.log(target);
+        specificIncrement(resolutionId, amount, amountToIncrement, element) {
+            let resolutionElement = document.getElementById(resolutionId);
+            let resolution = $(resolutionElement).val();
+            if(resolution == "default")
+                resolution = this.resolution;
+
+            if(resolution == "9x13" || resolution == "10x15") {
+                this.amount9+= amountToIncrement;
+                $(element).val(amount);
+            }
+            else if(resolution == "13x18") {
+                this.amount13+= amountToIncrement;
+                $(element).val(amount);
+            }
+            else if(resolution == "15x21") {
+                this.amount15+= amountToIncrement;
+                $(element).val(amount);
+            }
+            else if(resolution == "20x30") {
+                this.amount20+= amountToIncrement;
+                $(element).val(amount);
+            }
         },
-        calc: function() {
-            this.totalAmount = this.sumUp9() + this.sumUp13() + this.sumUp15() + this.sumUp20();
+        changeAmount: function(event) {
+            let amount = event.target.value;
+            let name = event.target.name.replace("Ilosc", "oldAmount");
+            let element = document.getElementById(name);
+            let oldAmount = $(element).val();
+            let amountToIncrement = amount - oldAmount;
+            let resolutionId = event.target.name.replace("Ilosc", "Rozmiar");
+            $('.ilosc').val(amount);
+            this.specificIncrement(resolutionId, amount, amountToIncrement, element);
+            this.calculate();
+        },
+        increment: function(event) {
+            let resolution = event.target.value;
+            let name = event.target.name.replace("Rozmiar", "oldres");
+            let amountId = event.target.name.replace("Rozmiar", "Ilosc");
+            let element = document.getElementById(name);
+            let amountElement = document.getElementById(amountId);
+            let amountToIncrement = $(amountElement).val();
+            console.log("Quantity of changing photos: " + amountToIncrement);
+            let oldRes = $(element).val();
+            if(oldRes == "")
+                oldRes = this.resolution;
+            if(resolution == "default")
+                resolution = this.resolution;
+
+            if(resolution == "9x13" || resolution == "10x15") {
+                this.amount9+= parseInt(amountToIncrement);
+                this.decrement(oldRes, amountToIncrement);
+                $(element).val(resolution);
+            }
+            else if(resolution == "13x18") {
+                this.amount13+= parseInt(amountToIncrement);
+                this.decrement(oldRes, amountToIncrement);
+                $(element).val(resolution);
+            }
+            else if(resolution == "15x21") {
+                this.amount15+= parseInt(amountToIncrement);
+                this.decrement(oldRes, amountToIncrement);
+                $(element).val(resolution);
+            }
+            else if(resolution == "20x30") {
+                this.amount20+= parseInt(amountToIncrement);
+                this.decrement(oldRes, amountToIncrement);
+                $(element).val(resolution);
+            }
+            this.calculate();
+        },
+        decrement: function(res, amountToIncrement) {
+            if(res == "9x13" || res == "10x15")
+                this.amount9-=parseInt(amountToIncrement);
+            else if(res == "13x18")
+                this.amount13-=parseInt(amountToIncrement);
+            else if(res == "15x21")
+                this.amount15-=parseInt(amountToIncrement);
+            else if(res == "20x30")
+                this.amount20-=parseInt(amountToIncrement);
         },
         order1: function() {
             let modal = document.getElementById("PD");
@@ -165,24 +214,15 @@ var app = new Vue({
             document.getElementById('img-'+this.nowShowed+'-preview').style.display='block';
             document.getElementById('img-'+this.nowShowed+'-attr').style.display='block';
         },
-        imgToData: function(input, template) {
-            console.log("weszlo tu");
+        imgToData: function(input) {
             let counter = 0;
             this.nowShowed = 1;
-            $('.mySlides').remove();
-            $('.attrs').remove();
             
             $.each(input.files, function(i, v) {
                 var n = i + 1;
-                let attributesTemplateStr = template.split('<n>').join(n);
                 counter++;
                 var File = new FileReader();
                 File.onload = function(event) {
-                    $('<div/>').attr({
-                        class: 'mySlides',
-                        id: 'img-' + n + '-preview',
-                    }).prependTo('#gallery');
-                    $('#img-' + n + '-preview').html(attributesTemplateStr);
                     $('<img/>').attr({
                         class: 'galleryImgs',
                         src: event.target.result,
@@ -193,149 +233,42 @@ var app = new Vue({
             });
             this.cnt = counter;
         },
-        Calculate: function(event) {
-            let template = this.attributesTemplate;        
+        uploadFiles: function(event) {
+            $('.galleryImgs').remove();
+            $('.mySlides').css('display', 'none');
+            $('.rozmiar').val('default');
+            $('.powierzchnia').val('default');
+            $('.wypelnienie').val('default');
+            $('.sepia').val('default');
+            $('.ilosc').val(this.quantity);
+            $('.ramka').val('default');
+            this.files = event.target.files;
             if(event.target.files != null) {
-                this.amount = event.target.files.length;
-                this.imgToData(event.target, template);
+                this.amount = event.target.files.length * parseInt(this.quantity);
+                this.imgToData(event.target);
             }
+            this.calculateAll();
+        },
+        calculateAll: function() {
+            this.amount9 = 0;
+            this.amount13 = 0;
+            this.amount15 = 0;
+            this.amount20 = 0;
             if(this.resolution === "9x13" || this.resolution === "10x15") {
-                if(this.amount<10) {
-                    this.message = this.amount*0.74;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<100) {
-                    this.message = this.amount*0.59;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<200) {
-                    this.message = this.amount*0.50;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<300) {
-                    this.message = this.amount*0.47;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<500) {
-                    this.message = this.amount*0.44;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<1000) { 
-                    this.message = this.amount*0.41;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<2000) {
-                    this.message = this.amount*0.39;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else {
-                    this.message = this.amount*0.33;
-                    this.message = this.message.toFixed(2);
-                    return;
-                }
+                this.amount9 = this.amount;
             } else if(this.resolution === "13x18") {
-                if(this.amount<10) {
-                    this.message = this.amount*1.12;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<100) {
-                    this.message = this.amount*0.89;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<200) {
-                    this.message = this.amount*0.76;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<300) {
-                    this.message = this.amount*0.71;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<500) {
-                    this.message = this.amount*0.67;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<1000) {
-                    this.message = this.amount*0.62;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<2000) {
-                    this.message = this.amount*0.58;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else {
-                    this.message = this.amount*0.49;
-                    this.message = this.message.toFixed(2);
-                    return;
-                }
+                this.amount13 = this.amount;
             } else if(this.resolution === "15x21") {
-                if(this.amount<10) {
-                    this.message = this.amount*1.49;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<100) {
-                    this.message = this.amount*1.19;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<200) {
-                    this.message = this.amount*1.01;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<300) {
-                    this.message = this.amount*0.95;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<500) {
-                    this.message = this.amount*0.89;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<1000) {
-                    this.message = this.amount*0.83;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<2000) {
-                    this.message = this.amount*0.78;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else {
-                    this.message = this.amount*0.66;
-                    this.message = this.message.toFixed(2);
-                    return;
-                }
+                this.amount15 = this.amount;
             } else if(this.resolution === "20x30") {
-                if(this.amount<10) {
-                    this.message = this.amount*3.70;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<100) {
-                    this.message = this.amount*2.96;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<200) {
-                    this.message = this.amount*2.52;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<300) {
-                    this.message = this.amount*2.37;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<500) {
-                    this.message = this.amount*2.22;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<1000) {
-                    this.message = this.amount*2.07;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else if(this.amount<2000) {
-                    this.message = this.amount*1.93;
-                    this.message = this.message.toFixed(2);
-                    return;
-                } else {
-                    this.message = this.amount*1.63;
-                    this.message = this.message.toFixed(2);
-                    return;
-                }
+                this.amount20 = this.amount;
             }
+            this.calculate();
+        },
+        calculate: function() {
+            //let template = this.attributesTemplate;
+            let returnValue = parseFloat(this.sumUp9) + parseFloat(this.sumUp13) + parseFloat(this.sumUp15) + parseFloat(this.sumUp20);
+            this.message = returnValue.toFixed(2);
         }
     }
 });

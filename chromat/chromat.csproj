@@ -256,6 +256,7 @@
     <Folder Include="Migrations\" />
     <Folder Include="Scripts\sql\" />
     <Folder Include="Views\Partials\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\HomeController.cs" />
@@ -266,6 +267,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Models\Zamowienie.cs" />
     <Compile Include="DAL\ChromatContext.cs" />
+    <Compile Include="Services\MiscService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />

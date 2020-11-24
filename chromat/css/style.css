@@ -167,24 +167,14 @@ h3.heading {
 
 .calculator-res {
     width: 6rem;
-    height: 2.5rem;
+    height: 2rem;
     border-radius: 0;
     display: inline-block;
-    margin: 1rem auto;
 }
 .calculator-res option {
     color: black;
 }
 
-.calculator-amount {
-    width: 4rem;
-    height: 2.5rem;
-    padding-left: .3rem;
-    border-radius: 0;
-    display: inline-block;
-    margin: 1rem 0 1rem 2rem;
-    text-align: left;
-}
 
 .calculator-res:hover,
 .calculator-amount:hover {
@@ -238,48 +228,12 @@ footer svg.svg-inline--fa:hover {
     padding: .2rem .5rem;
 }
 
-/* Media Queries */
-@media (max-width: 767px) {
-    .caption h1 {
-        font-size: 2.3rem;
-        letter-spacing: .15rem;
-        padding-bottom: .5rem;
-    }
 
-    .caption h3 {
-        font-size: 1.2rem;
-        padding-bottom: 1.2rem;
-    }
-
-    .caption img {
-    	height: 5rem;
-    }
-
-    .btn-lg {
-        padding: .5rem 1rem;
-        font-size: 1rem;
-    }
-
-    .btn-md {
-        font-size: .5rem;
-    }
-
-    .narrow h1 {
-        font-size: 1.5rem;
-    }
-    .narrow.lead {
-        fonts-size: .9rem;
-    }
-    .clients img {
-        max-width: 50%;
-        display:block;
-        margin: 0 auto;
-    }
-}
 
 .pd {
   margin-bottom: 10px;
   border: 1px solid #aaa;
+  width: 90%;
 }
 
 .pd:hover,
@@ -307,6 +261,8 @@ footer svg.svg-inline--fa:hover {
   font-weight: bold;
   font-family: 'Lato', sans-serif;
   text-shadow: .1rem .1rem .5rem black;
+  margin-bottom: 10px;
+  margin-top: -10px;
 }
 
 /* Modal Content/Box */
@@ -316,7 +272,8 @@ footer svg.svg-inline--fa:hover {
   padding: 20px;
   border: 1px solid #888;
   border-radius: 10px;
-  width: 60%;
+  width: 80%;
+  max-width: 1200px;
   height: auto;
   overflow: auto;
   max-height: inherit;
@@ -327,28 +284,27 @@ footer svg.svg-inline--fa:hover {
 }
 
 #personalData {
-    width: 40%;
+    width: 30%;
     float: left;
     top: 0;
     right: 20px;
     padding-left: 30px;
+    text-align: center;
 }
 
 #gallery{
     top: 0;
     float: left;
-    width: 60% !important;
+    width: 70% !important;
     height: auto;
     text-align: center;
     display: block;
     overflow: visible;
     padding: 0;
+    border-right: 1px dashed #333;
 }
 
 
-.detale {
-    display: inline-block;
-}
 
 .prev, .next {
     cursor: pointer;
@@ -376,16 +332,16 @@ footer svg.svg-inline--fa:hover {
     display: none;
     padding: 10px;
     width: 100%;
+    text-align: center;
 }
 
 .mySlides img {
-    float: center;
     display: block;
     vertical-align: middle;
     margin: auto;
     max-height: 260px; 
-    width: auto; 
-    max-width: 100%;
+    width: auto;
+    max-width: 70%;
     border-radius: 10px;
 }
 
@@ -403,9 +359,20 @@ footer svg.svg-inline--fa:hover {
     padding-right: 10px;
 }
 
+.przypis {
+    clear: both;
+    float: left;
+    width: 100px;
+    line-height: 2rem;
+    font-size: .8rem;
+    vertical-align: middle;
+    border: none;
+    text-align: left;
+}
+
 .att {
     display: block;
-    margin-bottom: 3px;
+    font-size: .8rem;
 }
 
 
@@ -415,6 +382,14 @@ footer svg.svg-inline--fa:hover {
     overflow: hidden;
     opacity: 1;
     font-family: 'Oswald', sans-serif;
+}
+
+.selecty {
+    background-color: rgba(0,0,0,0); 
+    line-height: 1.2rem; 
+    color:  white;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 @keyframes animatetop {
@@ -454,28 +429,117 @@ footer svg.svg-inline--fa:hover {
   text-decoration: none;
   cursor: pointer;
 }
-.goodMessage {
+.msg {
     position: fixed;
     top: 10%;
     text-align: center;
     width: 20%;
     left: 40%;
-    background-color: #009900;
-    border: 2px solid #005500;
-    color: #003300;
+    background-color: #35663F;
+    border: 1px solid #005500;
+    border-radius: 5px;
+    opacity: .7;
+    color: #ffffff;  
+    font-weight: bold;
+    letter-spacing: 1px;
+    z-index: 99999;
+    padding: 10px 0 10px 0;
+    animation: fadeout;
+    animation-delay: 3s;
+    animation-duration: 6s;
+    animation-fill-mode: forwards;
 }
 
-.errorMessage {
-    position: fixed;
-    top: 10%;
-    text-align: center;
-    width: 20%;
-    left: 40%;
-    background-color: #ff3333;
+.error {
+    background-color: #aa2222;
     border: 2px solid #990000;
-    color: #660000;
 }
 
+@keyframes fadeout {
+    from {
+        opacity: .7;
+    }
+    to {
+        opacity: .0;
+        margin-top: -9999px;
+    }
+}
+
+
+
+/* Media Queries */
+@media (max-width: 1300px) {
+    .attrs {
+        clear: both;
+        display: block;
+        width: 100% !important;
+        text-align: center;
+    }
+    .mySlides img {
+        clear: both;
+        display: block;
+        width: 100% !important;
+        text-align: center !important;
+    }
+}
+@media (max-width: 968px) {
+    .caption h1 {
+        font-size: 2.3rem;
+        letter-spacing: .15rem;
+        padding-bottom: .5rem;
+    }
+
+    .caption h3 {
+        font-size: 1.2rem;
+        padding-bottom: 1.2rem;
+    }
+
+    .caption img {
+        height: 5rem;
+    }
+
+    .btn-lg {
+        padding: .5rem 1rem;
+        font-size: 1rem;
+    }
+
+    .btn-md {
+        font-size: .5rem;
+    }
+
+    .narrow h1 {
+        font-size: 1.5rem;
+    }
+    .narrow.lead {
+        font-size: .9rem;
+    }
+    .clients img {
+        clear: both;
+        max-width: 50%;
+        display:block;
+        margin: 0 auto;
+    }
+    #gallery {
+        min-width: 100%;
+        text-align: center;
+        border-right: none;
+    }
+    .attrs {
+        clear:both;
+        display: block;
+        min-width: 100%;
+        margin-left: 15%;
+    }
+    #personalData {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .mySlides {
+        width: 100%;
+        text-align: center;
+    }
+}
 
 /*============ BOOTSTRAP BREAK POINTS:
 
@@ -483,13 +547,21 @@ Extra small (xs) devices (portrait phones, less than 576px)
 No media query since this is the default in Bootstrap
 
 Small (sm) devices (landscape phones, 576px and up)
-@media (min-width: 576px) { ... }
+@media (min-width: 576px) { 
+}
 
 Medium (md) devices (tablets, 768px and up)
-@media (min-width: 768px) { ... }
+@media (min-width: 768px) { 
+    .attrs {
+        
+    }
+    mySlides img {
+        float: middle;
+    }
+}
 
 Large (lg) devices (desktops, 992px and up)
-@media (min-width: 992px) { ... }
+
 
 Extra (xl) large devices (large desktops, 1200px and up)
 @media (min-width: 1200px) { ... }
