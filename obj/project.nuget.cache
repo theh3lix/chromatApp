@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Z2heMT0zELqHk70F95xM2jqQamLsnMPwb43SqQYS2p/8kAcI3n+DAtvVsL7QO6LyrtBC1IPgOl20wJIcjzNATw==",
+  "success": true,
+  "projectFilePath": "/home/miker/chromatApp/newChromat.csproj",
+  "expectedPackageFiles": [
+    "/home/miker/.nuget/packages/buildbundlerminifier/3.2.449/buildbundlerminifier.3.2.449.nupkg.sha512"
+  ],
+  "logs": []
+}
