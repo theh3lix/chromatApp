@@ -132,12 +132,13 @@ var app = new Vue({
         },
         changeAmount: function(event) {
             let amount = event.target.value;
+            let main_element = document.getElementById(event.target.name);
             let name = event.target.name.replace("Ilosc", "oldAmount");
             let element = document.getElementById(name);
             let oldAmount = $(element).val();
             let amountToIncrement = amount - oldAmount;
             let resolutionId = event.target.name.replace("Ilosc", "Rozmiar");
-            $('.ilosc').val(amount);
+            $(main_element).val(amount);
             this.specificIncrement(resolutionId, amount, amountToIncrement, element);
             this.calculate();
         },
@@ -253,19 +254,20 @@ var app = new Vue({
             this.cnt = counter;
         },
         uploadFiles: function(event) {
+            let quant = parseInt(this.quantity);
+            console.log(quant);
             $('.galleryImgs').remove();
             $('.mySlides').css('display', 'none');
             $('.rozmiar').val('default');
             $('.powierzchnia').val('default');
             $('.wypelnienie').val('default');
             $('.sepia').val('default');
-            $('.ilosc').val(this.quantity);
+            $('.ilosc').val(quant.toString());
             $('.ramka').val('default');
             app.updateUploadMessage('');
-            app.updateUploadMessage = '';
             this.files = event.target.files;
             if(event.target.files != null) {
-                this.amount = event.target.files.length * parseInt(this.quantity);
+                this.amount = event.target.files.length * quant;
                 this.imgToData(event.target);
             }
             this.calculateAll();
