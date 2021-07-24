@@ -32,6 +32,7 @@
     </div>
 </nav>
 <!-- End Navigation -->
+
 <!-- Start Landing Page Section -->
 <div class="landing">
     <div class="home-wrap">
@@ -52,94 +53,17 @@
 </div>
 <!-- End Home Section -->
 
-<!-- Start Course Section -->
+<!-- Sekcja informacyjna -->
 <div id="welcome" class="offset">
-
-<div class="col-12 narrow text-center">
-    <h1>Firma fotograficzna Chromat sp. z o.o.</h1>
-    <p class="lead">Witamy na stronie Chromatu - firmy fotograficznej z ponad 30-letnią tradycją.
-    Zajmujemy się wieloma gałęziami fotografii, od zwykłych odbitkek, poprzez gadżety z nadrukami, takie jak
-    puzzle, kubki, poduszki i wiele innych, po wydruki wielkoformatowe i płótna.</p>
-    <h3><b>UWAGA:</b></h3>
-    <p class="lead">Ze względu na pandemię koronawirusa sklep będzie otwarty w następujących godzinach:</p>
-    <table class="none" style="margin-left: auto; margin-right: auto">
-        <tr>
-           <td><b>PONIEDZIAŁEK-PIĄTEK</b></td>
-           <td>9:00-13:00</td>
-       </tr>
-       <tr>
-           <td><b>SOBOTA</b></td>
-           <td>10:00-12:00</td>
-       </tr>
-    </table>
+    @await Html.PartialAsync("Partials/_Info");
 </div>
+<!-- End Sekcja informacyjna -->
 
-</div>
-<!-- End Course Section -->
-
-<!-- Start Features Section -->
+<!-- Produkty -->
 <div id="products" class="offset">
-
-<!-- Start Jumbotron -->
-<div class="jumbotron">
-<div class="narrow text-center">
-    <div class="col-12">
-        <h3 class="heading">PRODUKTY</h3>
-        <div class="heading-underline"></div>
-    </div>
-    <div class="row text-center">
-        <div class="col-md-4">
-            <div class="feature">
-                <i class="far fa-images fa-4x" data-fa-transform="shrink-3 up-5"></i>
-                <h3>Odbitki</h3>
-                <p>Wykonujemy odbitki zarówno w najpopularniejszych rozmiarach, jak i w niestandardowych. Przy większej ilości odbitek
-                rabaty nawet do <b>45%</b>!</p>
-            </div>
-        </div>
-                <div class="col-md-4">
-            <div class="feature">
-                <i class="fas fa-search-plus fa-4x" data-fa-transform="shrink-4 up-5"></i>
-                <h3>Powiększanie zdjęć</h3>
-                                <p>Możemy również wykonać Twoje zdjęcie na większych formatach. Nawet do <b>70x100cm</b>. W <a href="misc/cennik.pdf" target="_blank">cenniku</a> znaduje się aktualny koszt usługi.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="feature">
-                <i class="far fa-image fa-4x" data-fa-transform="shrink-4 up-5"></i>
-                <h3>Wydruki na płótnie</h3>
-                <p>Wydrukujemy Twoje zdjęcie na płótnie, nadając mu niepowtarzalnego charakteru.</p>
-            </div>
-        </div>
-                <div class="col-md-4">
-            <div class="feature">
-                <i class="fas fa-film fa-4x" data-fa-transform="shrink-4 up-5"></i>
-                <h3>Przegrywamy kasety</h3>
-                                <p>Przegrywamy kasety VHS, Video8, Digital8, Hi8, miniDV na DVD. W <a href="misc/cennik.pdf" target="_blank">cenniku</a> znaduje się aktualny koszt usługi.</p>
-            </div>
-        </div>
-                <div class="col-md-4">
-            <div class="feature">
-                <i class="fas fa-coffee fa-4x" data-fa-transform="shrink-4.5 up-4.5"></i>
-                <h3>Gadżety</h3>
-                <p>Tworzymy nadruki na różnych gadżetach, takich jak kubki, koszulki, poduszki, puzzle i inne.
-                    Zbiór wszystkich gadżetów znajdziesz na naszej aplikacji internetowej. Jeśli nie ma tego, czego szukasz -
-                    pisz. Zobaczymy, co da się zrobić :)</p>
-            </div>
-        </div>
-                <div class="col-md-4">
-            <div class="feature">
-                <i class="fas fa-camera-retro fa-4x" data-fa-transform="shrink-4 up-5"></i>
-                <h3>Retusz zdjęć</h3>
-                <p>Jeśli masz starą, wyblakłą fotografię, przynieś ją do nas, a przywrócimy jej dawny blask! W <a href="misc/cennik.pdf" target="_blank">cenniku</a> znaduje się aktualny koszt usługi.</p>
-            </div>
-        </div>
-    </div><!-- End Row -->
-</div><!-- End Narrow -->
-</div><!-- End Jumbotron -->
-
-
+    @await Html.PartialAsync("Partials/_Products");
 </div>
-<!-- End Features Section -->
+<!-- End Produkty -->
 
 <!-- Start Resources Section -->
 <div id="pricetab" class="offset">
@@ -159,235 +83,13 @@
         </div>
         <p>Tu możesz wyliczyć cenę swojego potencjalnego zamówienia na podstawie ilości i rozmiaru odbitek
                    (Według cen za zamówienie przez internet):</p>
-        <div id="calc">
-            @using (Html.BeginForm("Order", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "orderForm" })) {
-                <select class="custom-select btn-outline-light calculator-res selecty" v-model="resolution" v-on:change="calculateAll" name="Rozmiar" id="Rozmiar">
-                    <option value="9x13">9x13</option>
-                    <option selected="true" value="10x15">10x15</option>
-                    <option value="13x18">13x18</option>
-                    <option value="15x21">15x21</option>
-                    <option value="20x30">20x30</option>
-                </select>
-                <select class="custom-select btn-outline-light calculator-res selecty" name="Powierzchnia">
-                    <option value="mat">Mat</option>    
-                    <option value="błysk">Błysk</option>    
-                </select>
-                <select class="custom-select btn-outline-light calculator-res selecty" name="Wypelnienie">
-                    <option value="ndop">Przytnij</option>    
-                    <option value="dop">Dopasuj</option>    
-                </select>
-                <select class="custom-select btn-outline-light calculator-res selecty" name="Sepia">
-                    <option selected="selected" value="">Kolor</option>   
-                    <option value="Czarno-białe">Czarno-białe</option>    
-                    <option value="sepia">Sepia</option>    
-                </select><br/><p></p>
-                <span>Domyślna ilość odbitek: </span> <input type="number" class="custom-control btn-outline-light calculator-res selecty" v-model="quantity" name="Ilosc" id="Ilosc" v-on:change="changeAmount" style="width: 70px;"/><br/>
-                <input type="checkbox" class="btn-outline-light" style="margin-bottom: 10px; margin-top: 10px" name="Ramka"><span> Biała ramka</span>
-                <br/>    
-                <input type="file" class="custom-select btn btn-primary btn-md" style="background-color: rgba(0,0,0,0); width: 60%" v-on:change="uploadFiles" id="Files" name="Pliki" multiple="true">
-                <input type="hidden" value="1" id="oldAmount"/>
-                <input type="hidden" v-model="message" v-bind:value="message" name="Cena" />
-                <input type="hidden" v-model="amount9" v-bind:value="amount9" name="Amount9" />
-                <input type="hidden" v-model="amount13" v-bind:value="amount13" name="Amount13" />
-                <input type="hidden" v-model="amount15" v-bind:value="amount15" name="Amount15" />
-                <input type="hidden" v-model="amount20" v-bind:value="amount20" name="Amount20" />
-                <div class="row modal" id="PD">
-                    <div id="details" class="modalContent" v-if="amount != 0">
-                        <span class="close" v-on:click="document.getElementById('PD').style.display = 'none';">&times;</span>
-                        <div class="product detale col-xs-12 col-lg-8" id="gallery">
-                                <div class="mySlides" v-for="(file, index) in files" v-bind:id="'img-'+(index+1)+'-preview'">
-                                    <div class='attrs' v-bind:id="'img-'+(index+1)+'-attr'" style='display: none; text-align: center'>
-                                        <input type="hidden" v-bind:id="(index+1)+'-oldres'" value="" style="display: none"/>
-                                        <input type="hidden" v-bind:id="(index+1)+'-oldAmount'" value="1" style="display: none"/>
-                                        
-                                        <span class='calculator-res przypis'>Rozmiar: </span>
-                                        <select v-bind:name="(index+1)+'-Rozmiar'" v-bind:id="(index+1)+'-Rozmiar'" class='custom-select calculator-res selecty att rozmiar' v-on:change="increment">
-                                            <option selected='true' value='default'>Domyślne</option>
-                                            <option value="9x13">9x13</option>
-                                            <option value="10x15">10x15</option>
-                                            <option value="13x18">13x18</option>
-                                            <option value="15x21">15x21</option>
-                                            <option value="20x30">20x30</option>
-                                        </select>
-                                        <span class='calculator-res przypis'>Wypełnienie: </span>
-                                        <select v-bind:name="(index+1)+'-Wypelnienie'" class='custom-select calculator-res selecty att wypelnienie'>
-                                             <option selected='true' value='default'>Domyślne</option>
-                                             <option value="ndop">Przytnij</option>    
-                                             <option value="dop">Dopasuj</option>   
-                                        </select>
-                                        <span class='calculator-res przypis'>Powierzchnia: </span>
-                                        <select v-bind:name="(index+1)+'-Powierzchnia'" class='custom-select calculator-res selecty att powierzchnia'>
-                                            <option selected='true' value='default'>Domyślne</option>
-                                            <option value="mat">Mat</option>    
-                                            <option value="błysk">Błysk</option>
-                                        </select>
-                                        <span class='calculator-res przypis'>Kolor: </span>
-                                        <select v-bind:name="(index+1)+'-Sepia'" class='custom-select calculator-res selecty att sepia'>
-                                            <option selected='true' value='default'>Domyślne</option>
-                                            <option value="">Kolor</option>     
-                                            <option value="Czarno-białe">Czarno-białe</option>    
-                                            <option value="sepia">Sepia</option>
-                                        </select>
-                                        <span class='calculator-res przypis'>Biała ramka: </span>
-                                        <select v-bind:name="(index+1)+'-Ramka'" class='custom-select calculator-res selecty att ramka'>
-                                             <option selected='true' value='default'>Domyślne</option>
-                                             <option value="Ramka_">Ramka</option>    
-                                             <option value="">Bez ramki</option>   
-                                        </select>
-                                        <span class="calculator-res przypis">Ilość odbitek: </span>
-                                        <input type="number" v-bind:id="(index+1)+'-Ilosc'" v-bind:name="(index+1)+'-Ilosc'"
-                                               class="custom-select calculator-res selecty att ilosc" v-on:change="changeAmount"/>
-                                    </div>
-                                </div>
-                            <a class="prev" v-on:click="prev">&#10094</a>
-                            <a class="next" v-on:click="next">&#10095</a>
-                            <span class="col-xs-12 message" style="clear: both; padding: 10px; text-align: center">Do zapłaty: {{message}}zł</span>
-                        </div>
-                        <div id="personalData" class="detale col-xs-12 col-lg-4">
-                            <h3 id="headerPD">PODAJ DANE:</h3>
-                            <input class="btn btn-md pd" type="text" name="Imie" placeholder="Imię" required="true"/><br/>
-                            <input class="btn btn-md pd" type="text" name="Nazwisko" placeholder="Nazwisko" required="true"/><br/>
-                            <input class="btn btn-md pd" type="email" name="Email" placeholder="E-mail" required="true"/><br/>
-                            <input class="btn btn-md pd" type="tel" name="Nrtel" placeholder="Nr telefonu" required="true"/><br/>
-                            <button type="submit" class="btn btn-secondary btn-sm" onclick="return AreUSure()"
-                                style="border: 1px solid #aaa; border-radius: 5px; height: 2.8rem !important; 
-                                line-height: 2.6rem !important; padding-top: 0" name="submit">Zamów</button>
-                            <div id="spinner" style="display: none; margin-left: auto; margin-right: auto" role="status">
-                                <strong>Wysyłanie...</strong>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-
-                <button type="button" id="order" v-on:click="order1" v-bind:disabled="proceedDisabled" 
-                        class="btn btn-secondary btn-md" 
-                        style="border-radius: 5px; height: 2.8rem !important; line-height: 2.6rem !important; padding-top: 0"><strong>Dalej</strong></button>
-            }    
-            <span class="message">{{uploadMessage}}</span>
         
-            <div id="status"></div>
+        @await Html.PartialAsync("Partials/_OrderPhotos")
 
-        </div>
     </div>
-    <div class="col-md-4">
-        <h3>ZDJĘCIA DO DOKUMENTÓW</h3>
-        <div class="feature">
-            <i class="far fa-id-card fa-3x"></i>
-        </div>
-                <table class="table pricetab" style="color: white">
-                    <thead>
-                        <tr>
-                            <th>Typ dokumentu</th>
-                            <th>Ilość sztuk</th>
-                            <th>Cena</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>legitymacja</td>
-                            <td>4 szt.</td>
-                            <td>26,90zł</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>8 szt.</td>
-                            <td>32,90zł</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>dodatkowa odbitka</td>
-                            <td>2,50zł</td>
-                        </tr>
-                        <tr>
-                            <td>Paszport, dowód, wiza, prawo jazdy</td>
-                            <td>4 szt.</td>
-                            <td>31,90zł</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>8 szt.</td>
-                            <td>37,90zł</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>dodatkowa odbitka</td>
-                            <td>2,50zł</td>
-                        </tr>
-                        <tr>
-                            <td>Dyplom</td>
-                            <td>4 szt.</td>
-                            <td>32,90zł</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>8 szt.</td>
-                            <td>38,90zł</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>Możliwa liczba odbitek: 4,8,12 itd.</td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-    </div>
-    <div class="col-md-4">
-        <h3>WYDRUKI NA PŁÓTNIE</h3>
-        <div class="feature">
-            <i class="fas fa-image fa-3x"></i>
-        </div>
-                <table class="table pricetab" style="width: 70%; margin-left: auto; margin-right: auto; color: white">
-                    <thead>
-                        <tr>
-                            <th>Format w cm</th>
-                            <th>Cena</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>20x30</td>
-                            <td>43,00zł</td>
-                        </tr>
-                        <tr>
-                            <td>30x42</td>
-                            <td>52,00zł</td>
-                        </tr>
-                        <tr>
-                            <td>40x50</td>
-                            <td>65,00zł</td>
-                        </tr>
-                        <tr>
-                            <td>40x60</td>
-                            <td>69,00zł</td>
-                        </tr>
-                        <tr>
-                            <td>50x70</td>
-                            <td>85,00zł</td>
-                        </tr>
-                        <tr>
-                            <td>60x90</td>
-                            <td>105,00zł</td>
-                        </tr>
-                        <tr>
-                            <td>70x100</td>
-                            <td>139,00zł</td>
-                        </tr>
-                        <tr>
-                            <td>100x100</td>
-                            <td>150,00zł</td>
-                        </tr>
-                        <tr>
-                            <td>100x150</td>
-                            <td>195,00zł</td>
-                        </tr>
-                        <tr>
-                            <td>100x200</td>
-                            <td>260,00zł</td>
-                        </tr>
-                    </tbody>
-                </table>
-    </div>
+    <!-- Cennik - zdjęcia do dokumentów i wydruki na płótnie -->
+    @await Html.PartialAsync("Partials/_Pricelist")
+
     <div class="col-12">
         <a class="btn btn-secondary btn-md" href="misc/cennik.pdf" target="_blank">Pełny cennik dostępny jest tutaj</a>
     </div>
@@ -401,7 +103,7 @@
 </div>
 <!-- End Resources Section -->
 
-<!-- Start Clients Section -->
+<!-- Aplikacje do zamawiania zdjęć -->
 <div id="echromat" class="offset">
 
 <div class="col-12 narrow text-center">
@@ -413,58 +115,13 @@
 </div>
 
 </div>
-<!-- End Clients Section -->
+<!-- End Aplikacje do zamawiania zdjęć -->
 
 <!-- Start Contact Section -->
 <div id="contact" class="offset">
 
 <footer>
-<div class="row justify-content-center">
-    <div class="col-md-6 text-center">
-        <img src="img/logosmall.png">
-        <p>Staramy się służyć naszym doświadczeniem, aby maksymalnie umilić Ci interakcję z naszą firmą.</p>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h5><b>Informacje kontaktowe</b></h5>
-        <table class="none" style="margin-left: auto; margin-right: auto">
-                    <tr>
-                        <td><b>Adres:</b></td>
-                        <td>32-600 Oświęcim, ul. Mickiewicza 6</td>
-                    </tr>
-                    <tr>
-                        <td><b>Nr tel:</b></td>
-                        <td>(33) 842-66-98</td>
-                    </tr>
-                    <tr>
-                        <td><b>E-mail:</b></td>
-                        <td>sklep@chromat.pl</td>
-                    </tr>
-                </table>
-                </div>
-                <div class="col-md-6">
-                    <h5><b>Aktualne godziny otwarcia</b></h5>
-                    <table class="none" style="margin-left: auto; margin-right: auto">
-                    <tr>
-                        <td><b>PONIEDZIAŁEK-PIĄTEK</b></td>
-                        <td>9:00-13:00</td>
-                    </tr>
-                    <tr>
-                        <td><b>SOBOTA</b></td>
-                        <td>10:00-12:00</td>
-                    </tr>
-                    <tr>
-                        <td><b>NIEDZIELE, ŚWIĘTA, WIGILIA, WIELKI PIĄTEK, WIELKA SOBOTA</b></td>
-                        <td>nieczynne</td>
-                    </tr>
-                </table>
-                </div>
-                </div>
-        <a href="https://www.facebook.com/Chromat-296969173751477/" target="_blank"><i class="fab fa-facebook-square"></i></a>
-        <a href="https://e.chromat.pl" target="_blank"><i class="fab fa-chrome"></i></a>
-        <a href="mailto:sklep@chromat.pl" target="_blank"><i class="fas fa-at"></i></a>
-    </div>
-
-</div>
+    @await Html.PartialAsync("Partials/_FooterInfo")
 </footer>
 
 </div>

@@ -82,3 +82,12 @@ obj/Release/net5.0/PublishOutputs.917557aa04.txt
 obj/Release/net5.0/Razor/Views/Home/Index.cshtml.g.cs
 obj/Release/net5.0/Razor/Views/Shared/_Layout.cshtml.g.cs
 obj/Release/net5.0/ref/newChromat.dll
+bin/Debug/net5.0/newChromat
+bin/Debug/net5.0/newChromat.deps.json
+bin/Debug/net5.0/newChromat.dll
+bin/Debug/net5.0/newChromat.pdb
+bin/Debug/net5.0/newChromat.Views.dll
+bin/Debug/net5.0/newChromat.Views.pdb
+bin/Debug/net5.0/ref/newChromat.dll
+bin/
+obj/
