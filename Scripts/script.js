@@ -262,6 +262,7 @@ var app = new Vue({
             $('.ilosc').val(this.quantity);
             $('.ramka').val('default');
             app.updateUploadMessage('');
+            app.updateUploadMessage = '';
             this.files = event.target.files;
             if(event.target.files != null) {
                 this.amount = event.target.files.length * parseInt(this.quantity);
