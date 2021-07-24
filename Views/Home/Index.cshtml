@@ -160,7 +160,7 @@
         <p>Tu możesz wyliczyć cenę swojego potencjalnego zamówienia na podstawie ilości i rozmiaru odbitek
                    (Według cen za zamówienie przez internet):</p>
         <div id="calc">
-            @using (Html.BeginForm("Order", "Home", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+            @using (Html.BeginForm("Order", "Home", FormMethod.Post, new { enctype = "multipart/form-data", id = "orderForm" })) {
                 <select class="custom-select btn-outline-light calculator-res selecty" v-model="resolution" v-on:change="calculateAll" name="Rozmiar" id="Rozmiar">
                     <option value="9x13">9x13</option>
                     <option selected="true" value="10x15">10x15</option>
@@ -249,13 +249,20 @@
                             <input class="btn btn-md pd" type="text" name="Nazwisko" placeholder="Nazwisko" required="true"/><br/>
                             <input class="btn btn-md pd" type="email" name="Email" placeholder="E-mail" required="true"/><br/>
                             <input class="btn btn-md pd" type="tel" name="Nrtel" placeholder="Nr telefonu" required="true"/><br/>
-                            <button type="submit" class="btn" onclick="return confirm('Jesteś pewien?')" style="border: 1px solid #aaa" name="submit">Zamów</button>
+                            <button type="submit" class="btn btn-secondary btn-sm" onclick="return AreUSure()"
+                                style="border: 1px solid #aaa; border-radius: 5px; height: 2.8rem !important; 
+                                line-height: 2.6rem !important; padding-top: 0" name="submit">Zamów</button>
+                            <div id="spinner" style="display: none; margin-left: auto; margin-right: auto" role="status">
+                                <strong>Wysyłanie...</strong>
+                            </div>
                         </div>
                     </div>
                 </div>
                 
 
-                <button type="button" id="order" v-on:click="order1" v-bind:disabled="proceedDisabled" class="btn">Dalej</button>
+                <button type="button" id="order" v-on:click="order1" v-bind:disabled="proceedDisabled" 
+                        class="btn btn-secondary btn-md" 
+                        style="border-radius: 5px; height: 2.8rem !important; line-height: 2.6rem !important; padding-top: 0"><strong>Dalej</strong></button>
             }    
             <span class="message">{{uploadMessage}}</span>
         
@@ -268,7 +275,7 @@
         <div class="feature">
             <i class="far fa-id-card fa-3x"></i>
         </div>
-                <table class="table pricetab">
+                <table class="table pricetab" style="color: white">
                     <thead>
                         <tr>
                             <th>Typ dokumentu</th>
@@ -330,7 +337,7 @@
         <div class="feature">
             <i class="fas fa-image fa-3x"></i>
         </div>
-                <table class="table pricetab" style="width: 70%; margin-left: auto; margin-right: auto;">
+                <table class="table pricetab" style="width: 70%; margin-left: auto; margin-right: auto; color: white">
                     <thead>
                         <tr>
                             <th>Format w cm</th>
@@ -466,6 +473,13 @@
 <!--- Script Source Files -->
 <script src="~/js/site.js"></script>
 <script>
+    function AreUSure(){
+        let conf = confirm("Na pewno?");
+        if(conf){
+            document.getElementById("spinner").style.display = "inline-block";
+        }
+        return conf;
+    }
     
 </script>
 <!--- End of Script Source Files -->

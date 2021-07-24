@@ -7,7 +7,7 @@ using chromat.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 
-namespace chromatApp.Controllers
+namespace newChromat.Controllers
 {
     public class HomeController : Controller
     {
@@ -30,9 +30,15 @@ namespace chromatApp.Controllers
 
 
         [HttpPost]
-        [DisableRequestSizeLimit]
+        [RequestFormLimits(ValueCountLimit = 4096)]
         public ActionResult Order(IFormCollection form)
         {
+            var email = form["Email"].ToString();
+            var prog = Startup.Progress;
+            if(Startup.Progress.Keys.Any(x=>x == email))
+                Startup.Progress[email] = 0;
+            else
+                Startup.Progress.Add(email, 0);
             var files = form.Files;
             int cnt9 = 1, cnt13 = 1, cnt15 = 1, cnt20 = 1;
             var now = DateTime.Now;
@@ -40,6 +46,7 @@ namespace chromatApp.Controllers
             ClearVariables(form);
             string login = $"{now.Month:00}-{now.Day:00}_{now.Hour}-{now.Minute}-{now.Second:00}_{form["Nazwisko"]}_{form["Imie"]}".Replace(" ", "_");
             string DirPath = $"Content/Zamówienia/{login}";
+            Directory.CreateDirectory(DirPath);
             string errorPath = "Content/errorlog.txt";
             try
             {
@@ -100,8 +107,13 @@ namespace chromatApp.Controllers
                             ViewData.Add("ErrorMessage", "Błędny rozmiar odbitki!");
                             return RedirectToAction("Index");
                     }
+                    float progress = ((float)(i+1)/(float)files.Count)*100;
+                    if(progress>99)
+                        progress = 99;
+                    Startup.Progress[email] = progress;
                 }
                 service.RenameDirectories(DirPath);
+                Startup.Progress[email] = 100;
                 using (var sr = new StreamWriter(new FileStream(filePath, FileMode.Append)))
                 {
                     sr.WriteLine("Login:");
@@ -121,6 +133,7 @@ namespace chromatApp.Controllers
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 var ew = new StreamWriter(new FileStream(errorPath, FileMode.Append));
                 ew.WriteLine("Message: ");
                 ew.WriteLine(ex.Message);
@@ -139,6 +152,15 @@ namespace chromatApp.Controllers
             Wypelnienie = form["Wypelnienie"];
             Sepia = form["Sepia"];
             Ilosc = "1";
+        }
+
+        [HttpPost]
+        public ActionResult GetProgress(string email) {
+            if(Startup.Progress.TryGetValue(email, out float pr)){
+                return this.Content(pr.ToString(".##"));
+            } else {
+                return this.Content("0.00");
+            }
         }
     }
 }

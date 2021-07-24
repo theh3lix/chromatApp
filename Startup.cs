@@ -14,6 +14,7 @@ namespace newChromat
 {
     public class Startup
     {
+        public static Dictionary<string, float> Progress = new Dictionary<string, float>();
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -47,7 +48,6 @@ namespace newChromat
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseForwardedHeaders(new ForwardedHeadersOptions{
                 ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedFor | Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.XForwardedProto
             });

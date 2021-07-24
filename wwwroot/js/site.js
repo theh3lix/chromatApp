@@ -256,7 +256,7 @@ var app = new Vue({
                         src: event.target.result,
                         id: n+'-img'
                     }).appendTo('#img-' + n + '-preview');
-                    app.updateUploadMessage('Pobrano:' + upCount + '/' + filesAmount + ' zdjęć!');
+                    app.updateUploadMessage('Wczytano:' + upCount + '/' + filesAmount + ' plików!');
                     if(upCount==filesAmount){
                         app.unlockButton();
                     } else {
@@ -276,6 +276,7 @@ var app = new Vue({
             $('.sepia').val('default');
             $('.ilosc').val(this.quantity);
             $('.ramka').val('default');
+            app.updateUploadMessage('');
             this.files = event.target.files;
             if(event.target.files != null) {
                 this.amount = event.target.files.length * parseInt(this.quantity);
@@ -303,6 +304,47 @@ var app = new Vue({
             //let template = this.attributesTemplate;
             let returnValue = parseFloat(this.sumUp9) + parseFloat(this.sumUp13) + parseFloat(this.sumUp15) + parseFloat(this.sumUp20);
             this.message = returnValue.toFixed(2);
+        },
+        submitForm: function() {
+            //this.followUploadProgress();
+            if(!confirm("Jesteś pewien?"))
+                return false;
+            document.getElementById("spinner").style.display = "inline-block";
+            var option_form = $("#orderForm");
+            var inputs = $("#orderForm input");
+            console.log(option_form.serialize());
+            $.ajax({
+                url: option_form.attr('action'),
+                type: option_form.attr('method'),
+                data: inputs.serialize(),
+                dataType: 'json',
+                        timeout: 10000, // 10 Minutes
+                success: function (data) {
+                    if (data) {
+                        console.log(data);
+                    }
+                    document.getElementById("spinner").style.display = "none";
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    document.getElementById("spinner").style.display = "none";
+                    if (xhr.status == 500) {
+                        alert ( "Sorry submission failed error message:!!" + xhr.responseText);
+                    } else {
+                        alert ( "Error " + xhr.status);
+                    }
+                }
+            });
+        },
+        followUploadProgress: function() {
+            setInterval(function(){
+                console.log("checking upload progress");
+                $.post("/Home/GetProgress?email=michal@chromat.pl",
+                    function(progress){
+                        console.log("Progress: " + progress);
+                        $("#progressMessage").html(progress+"%");
+                    }
+                );
+            }, 500);
         }
     }
 });

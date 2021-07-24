@@ -21,7 +21,11 @@ namespace newChromat
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseKestrel()
+                    webBuilder.ConfigureKestrel((context, options) =>
+                    {
+                        // Handle requests up to 50 MB
+                        options.Limits.MaxRequestBodySize = 2024288000;
+                    }).UseKestrel()
                         .UseContentRoot(Directory.GetCurrentDirectory())
                         .UseUrls("https://*:5000")
                         .UseStartup<Startup>();

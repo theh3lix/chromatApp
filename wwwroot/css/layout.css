@@ -362,6 +362,10 @@ footer svg.svg-inline--fa:hover {
   cursor: text !important;
 }
 
+#personalData .pd {
+    background-color: white;
+}
+
 /* ModalContent - gallery and personal data */
 
 .modal {
@@ -511,6 +515,12 @@ footer svg.svg-inline--fa:hover {
     margin-bottom: 5px;
 }
 
+@keyframes loader {
+    from {opacity: 1; }
+    50% {opacity: 0; }
+    100% {opacity: 1; }
+}
+
 @keyframes animatetop {
   from {top: -300px; opacity: 0}
   to {top: 0; opacity: 1}
@@ -572,6 +582,14 @@ footer svg.svg-inline--fa:hover {
 .error {
     background-color: #aa2222;
     border: 2px solid #990000;
+}
+
+#spinner {
+    animation: loader;
+    animation-delay: .5s;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
 }
 
 @keyframes fadeout {
